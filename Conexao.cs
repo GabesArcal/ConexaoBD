@@ -10,7 +10,7 @@ namespace ConexaoBD
 
         string dadosConexao = "server=localhost;user=root;database=teste_ti42;port=3306;password=";
 
-        public void BuscaProdutos() // Para conseguir chamar essa função de fora eu preciso coloca "public"
+        public List<Produto> BuscaProdutos() // Quem chamar essa função, ele vai retornar a "List<Produtos>". E como ela é uma função que vai ser usado por outros precisa ser "public"
         {
 
             // Abrir conexão com o banco
@@ -23,13 +23,25 @@ namespace ConexaoBD
             MySqlCommand comando = new MySqlCommand(sql, conexao); // Aqui ele está falando para roda esse código que está no "sql" na "conexao";
             MySqlDataReader dados = comando.ExecuteReader();
 
+            List<Produto> lista = new List<Produto>();
+            
             while (dados.Read() ) // "while" é um loop de repetição; Esse "dados" é tudo o que está dentro do banco
             {
-                Console.WriteLine("ID: "+dados[0]+" | Nome: "+dados[1]+" | Preço "+dados[2]); // O zero é para achar a posição "index" lembrando que sempre começa com "0";
+                // Console.WriteLine("ID: "+dados[0]+" | Nome: "+dados[1]+" | Preço "+dados[2]); // O zero é para achar a posição "index" lembrando que sempre começa com "0";
+                
+                Produto p = new Produto();
+
+                p.id = dados.GetInt32("id"); // Esse "id" entre () é o nome da coluna no banco de dados, ai nesse código está falando para pegar o coluna "id" e tranformar em "int".
+                p.nome = dados.GetString("nome");
+                p.preco = dados.GetFloat("preco");
+                p.registro = dados.GetDateTime("registro");
+
+                lista.Add(p);
             }
 
             conexao.Close(); // Esse código é para fechar a conexão para que não consuma memoria infinita do servicor
 
+            return lista; // Devolve a lista para quem chamou
         }
     }
 }

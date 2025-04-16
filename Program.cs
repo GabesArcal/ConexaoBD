@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConexaoBD
 {
@@ -8,7 +9,12 @@ namespace ConexaoBD
         {
 
             Conexao conexao = new Conexao();
-            conexao.BuscaProdutos();
+            List<Produto> lista = conexao.BuscaProdutos();
+
+            foreach( Produto p in lista ){
+                Console.WriteLine("ID: "+p.id+" nome: "+p.nome);
+            }
+
 
             // Console.WriteLine("Hello World!");
             // Console.WriteLine("Olá, Digite o seu nome:");
