@@ -1,5 +1,6 @@
 using System; // Conexão com o banco
 using System.Collections.Generic; // Biblioteca de listas
+using System.Data;
 using System.Xml.Linq; // Biblioteca que organiza listas
 using MySql.Data.MySqlClient;
 
@@ -10,17 +11,31 @@ namespace ConexaoBD
 
         string dadosConexao = "server=localhost;user=root;database=teste_ti42;port=3306;password=";
 
+        public DataTable ExecutaSelect( string query )
+        {
+            // Cria e abre conexão com o banco
+            MySqlConnection conexao = new MySqlConnection(dadosConexao);
+            conexao.Open(); // Aqui estamos abrindo a conexão com o banco
+
+            // Rodar a query dentro do banco
+            MySqlCommand comando = new MySqlCommand(query, conexao); // Este comando está falando para rodar esse código que está na "query" dentro de "conexao";
+            MySqlDataAdapter dados = new MySqlDataAdapter(comando);
+            DataTable dt = new DataTable();
+            dados.Fill(dt);
+            conexao.Close();
+            return dt;
+        }
+
+
         public List<Produto> BuscaProdutos() // Quem chamar essa função, ele vai retornar a "List<Produtos>". E como ela é uma função que vai ser usado por outros precisa ser "public"
         {
 
-            // Abrir conexão com o banco
             MySqlConnection conexao = new MySqlConnection(dadosConexao);
-            conexao.Open(); // Aqui estamos abrindo a conexão com o banco
+            conexao.Open(); 
             Console.WriteLine("Conexão realizada com sucesso!");
 
-            // Rodar SQL dentro do banco;
             string sql = "SELECT * FROM produtos;";
-            MySqlCommand comando = new MySqlCommand(sql, conexao); // Aqui ele está falando para roda esse código que está no "sql" na "conexao";
+            MySqlCommand comando = new MySqlCommand(sql, conexao);
             MySqlDataReader dados = comando.ExecuteReader();
 
             List<Produto> lista = new List<Produto>();

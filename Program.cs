@@ -8,13 +8,20 @@ namespace ConexaoBD
         static void Main(string[] args)
         {
 
-            Conexao conexao = new Conexao();
-            List<Produto> lista = conexao.BuscaProdutos();
+            Produto p = new Produto();
+            List<Produto> lista = p.BuscaTodos();
 
-            foreach( Produto p in lista ){
-                Console.WriteLine("ID: "+p.id+" nome: "+p.nome);
+            foreach (Produto produto in lista)
+            {
+                Console.WriteLine("ID: "+produto.id+" | Nome: "+produto.nome);
             }
 
+            // Conexao conexao = new Conexao();
+            // List<Produto> lista = conexao.BuscaProdutos();
+
+            // foreach( Produto p in lista ){
+            //     Console.WriteLine("ID: "+p.id+" nome: "+p.nome);
+            // }
 
             // Console.WriteLine("Hello World!");
             // Console.WriteLine("Olá, Digite o seu nome:");
