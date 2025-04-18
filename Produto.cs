@@ -17,6 +17,13 @@ namespace ConexaoBD // Aqui é precisa falar qual pasta irá rodar
         {
             conexao = new Conexao();
         }
+
+        public void Insere()
+        {
+            string query = $"INSERT INTO produtos (nome, preco) VALUES ( '{nome}', {preco.ToString().Replace(",", ".")} );"; // Pega preço que é número, transforma em texto "ToString", e muda Replace virgula "," por ponto ".". 
+            conexao.ExecutaComando(query);
+            Console.WriteLine("Produto inserido com sucesso!");
+        }
         
         public List<Produto> BuscaTodos()
         {
